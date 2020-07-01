@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {Recepie} from "./recepie.model";
 
 @Component({
@@ -8,13 +8,12 @@ import {Recepie} from "./recepie.model";
 })
 export class RecepieComponent implements OnInit {
 
-  name = 'cijay';
+  @Input("a-data") a : number;
 
-  recepies : Recepie[]= [
-    new Recepie("a",1),
-    new Recepie("ab",2),
-    new Recepie("ac",3)
-  ];
+  call(){
+   console.log(this.a);
+  } 
+
 
   constructor() {
     
@@ -22,5 +21,6 @@ export class RecepieComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
 
 }
