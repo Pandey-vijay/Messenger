@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
-
 public class AuthInfo {
 	
 	Map<Integer,UUID> authData = new HashMap<Integer,UUID>();
