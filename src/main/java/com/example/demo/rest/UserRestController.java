@@ -1,6 +1,11 @@
 package com.example.demo.rest;
 
+import java.util.UUID;
+
+import javax.annotation.security.PermitAll;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +16,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.AuthInfo;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("user")
 public class UserRestController {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	AuthInfo authInfo;
+	
+	int userCount = 0;
 	
 	@GetMapping("get/{id}")
 	@ResponseBody
@@ -30,6 +41,8 @@ public class UserRestController {
 	@PostMapping("add")
 	public String add(@RequestBody User user) {
 		long lastSeen = System.currentTimeMillis();
+		user.setUserId(userCount);
+		userCount++;
 		userService.addUser(user);
 		userService.updateLastSeen(user.getUserId(), lastSeen);
 		return "User added  !!!!";
@@ -51,6 +64,25 @@ public class UserRestController {
 	public String updatePassword(@PathVariable("id")int userId,@RequestParam("password")String pass) {
 		userService.updatePassword(userId, pass);;
 		return "User Password Updates";
+	}
+	
+	@GetMapping("login")
+	@ResponseBody
+	public UUID login(@RequestParam("userId") int userId, @RequestParam("pass") String pass) {
+		if(userService.getUser(userId).getPass().equals(pass)) {
+			UUID authId  = UUID.randomUUID();
+			authInfo.addAuth(userId, authId);
+			return authId;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	@GetMapping("check")
+	@ResponseBody
+	public boolean check(@RequestParam("userId") int userId,@RequestParam("authId") UUID authId) {
+		return authInfo.checkAuth(userId,authId);
 	}
 	
 	@DeleteMapping("delete/{id}")

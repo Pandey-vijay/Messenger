@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.demo.controller.MessageController;
 import com.example.demo.controller.UserController;
+import com.example.demo.entity.AuthInfo;
 
 @Configuration
 public class AppConfig {
@@ -16,5 +17,9 @@ public class AppConfig {
 	@Bean
 	MessageController messageController() {
 		return new MessageController();
+	}
+	@Bean
+	AuthInfo authInfo() {
+		return new AuthInfo();
 	}
 }
