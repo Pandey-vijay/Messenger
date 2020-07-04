@@ -14,5 +14,4 @@ import com.example.demo.service.UserService;
 
 
 public class AppController {
-	
 }

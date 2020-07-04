@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Angular CLI" type="js.build_tools.npm" singleton="false">
+    <package-json value="$PROJECT_DIR$/src/main/resources/frontend/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="ng" />
+    </scripts>
+    <arguments value="serve" />
+    <node-interpreter value="project" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

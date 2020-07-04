@@ -1,0 +1,9 @@
+<form (ngSubmit) = "onSubmit()" #form = "ngForm">
+    <label for="userName">User Name : </label>
+    <input type="text" name="userName" id="userName" ngModel required>
+    <label for="password">Password : </label>
+    <input type="text" name="password" id="password" ngModel required>
+    <label for="password">Confirm Password : </label>
+    <input type="text" name="cpassword" id="cpassword" required>
+    <input type="submit" value="Submit" [disabled] = "form.invalid">
+</form>

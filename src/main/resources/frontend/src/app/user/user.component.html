@@ -1,0 +1,9 @@
+<div *ngIf = "userName !== 'default'">
+<p>User Id : {{userId}}</p>
+<p>User Name : {{userName}} </p>
+<p>Last Seen : {{lastSeen}}</p>
+</div>
+<div *ngIf = "userName === 'default'">
+    User with User Id {{userId}} Not found
+</div>
+
