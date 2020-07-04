@@ -8,18 +8,17 @@ import {FormsModule} from "@angular/forms";
 import { LoginFeelDirective } from './login/login-feel.directive'
 import {Route, RouterModule,ActivatedRoute} from "@angular/router";
 import { UserComponent } from './user/user.component'
-import {DeAuthSerive} from './deauth.service'
 import {} from '@angular/compiler'
 import {HttpClientModule} from '@angular/common/http'
 import { from } from 'rxjs';
 import { Values } from './values.service';
 import { CheckComponent } from './check/check.component';
+import  {LoginAuthGaurdService} from "./login-auth-gaurd.service"
 const route : Route[] = [
   { path : "login" ,  component : LoginComponent},
-  { path : "signup" ,  component : SignupComponent , canDeactivate : [DeAuthSerive] },
-  { path : "user/check",component : CheckComponent  },
-  { path : "user/:userId" , component : UserComponent   }
-
+  { path : "signup" ,  component : SignupComponent  },
+  { path : "user/check",component : CheckComponent,canActivate : [LoginAuthGaurdService]},
+  { path : "user/:userId" , component : UserComponent,canActivate : [LoginAuthGaurdService]}
   ]
 
 
@@ -40,7 +39,7 @@ const route : Route[] = [
     RouterModule.forRoot(route)
   ],
   providers: [
-    Values
+    Values,LoginAuthGaurdService
   ],
   bootstrap: [AppComponent]
 })

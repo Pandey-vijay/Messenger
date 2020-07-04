@@ -2,8 +2,7 @@ package com.example.demo.rest;
 
 import java.util.UUID;
 
-import javax.annotation.security.PermitAll;
-
+import com.example.demo.service.AuthInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +27,7 @@ public class UserRestController {
 	@Autowired
 	UserService userService;
 	@Autowired
-	AuthInfo authInfo;
+	AuthInfoService authInfoService;
 	
 	int userCount = 0;
 	
@@ -39,13 +38,14 @@ public class UserRestController {
 	}
 	
 	@PostMapping("add")
-	public String add(@RequestBody User user) {
+	@ResponseBody
+	public AuthInfo add(@RequestBody User user) {
 		long lastSeen = System.currentTimeMillis();
 		user.setUserId(userCount);
 		userCount++;
 		userService.addUser(user);
 		userService.updateLastSeen(user.getUserId(), lastSeen);
-		return "User added  !!!!";
+		return authInfoService.addAuth(user.getUserId(),UUID.randomUUID());
 	}
 	
 	@PostMapping("update/username/{id}")
@@ -71,7 +71,7 @@ public class UserRestController {
 	public UUID login(@RequestParam("userId") int userId, @RequestParam("pass") String pass) {
 		if(userService.getUser(userId).getPass().equals(pass)) {
 			UUID authId  = UUID.randomUUID();
-			authInfo.addAuth(userId, authId);
+			authInfoService.addAuth(userId, authId);
 			return authId;
 		}
 		else {
@@ -82,7 +82,7 @@ public class UserRestController {
 	@GetMapping("check")
 	@ResponseBody
 	public boolean check(@RequestParam("userId") int userId,@RequestParam("authId") UUID authId) {
-		return authInfo.checkAuth(userId,authId);
+		return authInfoService.checkAuth(userId,authId);
 	}
 	
 	@DeleteMapping("delete/{id}")

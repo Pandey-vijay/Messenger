@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.controller.AuthInfoController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,7 +20,8 @@ public class AppConfig {
 		return new MessageController();
 	}
 	@Bean
-	AuthInfo authInfo() {
-		return new AuthInfo();
+	AuthInfoController authInfoController() {
+		return new AuthInfoController();
 	}
+
 }

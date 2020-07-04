@@ -31,7 +31,7 @@ onLogin(){
     (data)=>{
       if(data !== null)
       {
-        localStorage.setItem("auth",data.toString());
+        localStorage.setItem("authId",data.toString());
         localStorage.setItem("userId",this.userData.userId.toString());
       }
       else

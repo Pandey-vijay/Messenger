@@ -5,23 +5,37 @@ import java.util.Map;
 import java.util.UUID;
 
 public class AuthInfo {
-	
-	Map<Integer,UUID> authData = new HashMap<Integer,UUID>();
-	
-	public boolean checkAuth(int userId,UUID authId) {
-		
-		System.out.println(authData.get(userId)+" "+authId);
-		System.out.print(authData.get(userId) == authId);
-		if(authData.get(userId).equals(authId)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	int userId;
+	UUID authId;
+	long timeStamp;
+
+	public AuthInfo(int userId,UUID authId,long timeStamp){
+		this.userId = userId;
+		this.authId = authId;
+		this.timeStamp = timeStamp;
 	}
-	
-	public void addAuth(int userId,UUID authId) {
-		authData.put(userId, authId);
+
+	public long getTimeStamp() {
+		return timeStamp;
 	}
-	
+
+	public void setTimeStamp(long timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public UUID getAuthId() {
+		return authId;
+	}
+
+	public void setAuthId(UUID authId) {
+		this.authId = authId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 }
