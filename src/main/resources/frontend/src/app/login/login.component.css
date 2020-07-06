@@ -1,7 +1,11 @@
-.s{
-    color: green;
+.ng-invalid .ng-touched{
+  border: red solid ;
+}
+body{
+  background-color: #0f6674;
 }
 
-.f{
-    color: red;
+form{
+  border: gray solid;
+  padding: 50px;
 }

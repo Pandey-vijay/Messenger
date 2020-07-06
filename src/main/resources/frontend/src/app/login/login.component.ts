@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { NgForm } from '@angular/forms';
-import {Values} from '../values.service'
-import { from } from 'rxjs';
-import { isNull } from '@angular/compiler/src/output/output_ast';
-
+import {Values} from '../values.service';
+import {Router} from '@angular/router'
+import {retry} from "rxjs/operators";
 
 @Component({
   selector: 'app-login',
@@ -14,34 +13,26 @@ import { isNull } from '@angular/compiler/src/output/output_ast';
 })
 
 export class LoginComponent  {
-@ViewChild("form") form : NgForm;
-userData : {userId:number ,pass : string};
-failed = false;
-constructor(private http : HttpClient,private values : Values){}
-
-onLogin(){
-  this.userData = {
-    userId : this.form.value.userId,
-    pass : this.form.value.pass
+  @ViewChild("form") form : NgForm;
+  userData : {userId:number ,pass : string};
+  failed = false;
+  constructor(private http : HttpClient,private values : Values,private router : Router){
+    console.log("aa");
   }
 
-  this.http.get(`${this.values.server}/user/login`,
-  {params : {"userId":this.userData.userId.toString(),"pass":this.userData.pass}}).
-  subscribe(
-    (data)=>{
-      if(data !== null)
-      {
-        localStorage.setItem("authId",data.toString());
-        localStorage.setItem("userId",this.userData.userId.toString());
+  onLogin(){
+    this.http.get(`${this.values.server}/user/login`,{params : {"userId":this.form.value["userId"],"pass" : this.form.value["pass"]}}).subscribe(
+      response => {
+          if(response === null)
+            alert(`Login Failed`)
+        else
+            alert(`Your Auth Token is ${response}`)
       }
-      else
-      {
-        console.log("login fail");
-        this.failed = true;
-      }
-    }
-  );
+    )
+  }
 
-}
+  onSignUp(){
+  this.router.navigate(["/","signup"]).catch(error => console.log(error));
+  }
 
 }

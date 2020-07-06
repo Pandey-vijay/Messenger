@@ -6,6 +6,7 @@ public interface UserDAO {
 
 	public void addUser(User user);
 	public User getUser(int userId);
+	public boolean check(int userId);
 	public void removeUser(int userId);
 	public void updateUserName(int userId,String userName);
 	public void updateStatus(int userId,String status);

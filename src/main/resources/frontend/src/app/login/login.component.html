@@ -1,8 +1,20 @@
-<form (ngSubmit)="onLogin()" #form = "ngForm">
-    <label for="userId">User Id : </label>
-    <input type="text" name="userId" id="userId" ngModel required>
-    <label for="pass"> Pasword : </label>
-    <input ngClass = "'pass'" type="text" name="pass" id="pass" ngModel required>
-    <input type="submit" value="Login" [disabled] = "form.invalid" >
-</form>
-<p *ngIf = "failed" >Login Failed</p>
+<html>
+  <body>
+  <div class="container col-4 mt-3">
+    <h2 style="color: white">Login</h2>
+  </div>
+    <div class="container col-4 jumbotron">
+      <form class="form-group" (ngSubmit)="onLogin()" #form = "ngForm">
+        <label for="userId">User Id : </label>
+        <input class="form-control" type="text" name="userId" id="userId" ngModel required>
+        <label for="pass"> Pasword : </label>
+        <input class="form-control" ngClass = "'pass'" type="text" name="pass" id="pass" ngModel required>
+        <input class="btn btn-primary mt-2" type="submit" value="Login" [disabled] = "form.invalid" >
+      </form>
+      <label for="signUp">Don't  Have a account ? </label><br>
+      <input class="btn btn-dark" type="button" (click)="onSignUp()" value="Sign Up" name="signUp" id="signUp">
+      <p *ngIf = "failed" style="color:red" >Login Failed</p>
+
+    </div>
+  </body>
+</html>

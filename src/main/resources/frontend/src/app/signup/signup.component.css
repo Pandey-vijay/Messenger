@@ -1,3 +1,13 @@
 input.ng-invalid.ng-touched{
     border: 1px solid red;
 }
+body{
+  background-color: #0f6674;
+}
+form{
+    border: gray solid ;
+    padding: 50px;
+}
+.help-block{
+  color: red;
+}

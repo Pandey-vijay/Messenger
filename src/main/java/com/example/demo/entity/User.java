@@ -4,7 +4,7 @@ package com.example.demo.entity;
 public class User {
 
 	private int userId;
-	private String userName,pass,status="Hello there";
+	private String userName,password,status="Hello there";
 	private long lastSeen;
 	
 	public int getUserId() {
@@ -22,11 +22,11 @@ public class User {
 	public void setLastSeen(long lastSeen) {
 		this.lastSeen = lastSeen;
 	}
-	public String getPass() {
-		return pass;
+	public String getPassword() {
+		return password;
 	}
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPassword(String pass) {
+		this.password = pass;
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
@@ -40,7 +40,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User Id "+getUserId()+"\nUser Name : "+getUserName();
+		return "User Id "+getUserId()+" " +
+				"\n User Name : "+ getPassword();
 	}
 	
 	

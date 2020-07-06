@@ -7,4 +7,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppComponent {
   title = 'Messenger';
+
+  showLogin() : boolean{
+    if(localStorage.getItem("authId") === null)
+      return true;
+    else
+      return false;
+  }
 }

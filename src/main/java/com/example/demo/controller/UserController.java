@@ -22,6 +22,11 @@ public class UserController implements UserDAO {
 	}
 
 	@Override
+	public boolean check(int userId) {
+		return users.containsKey(userId);
+	}
+
+	@Override
 	public void removeUser(int userId) {
 		User user = users.get(userId);
 		users.remove(user.getUserId());
@@ -52,7 +57,7 @@ public class UserController implements UserDAO {
 	@Override
 	public void updatePassword(int userId, String pass) {
 		User user = users.get(userId);
-		user.setPass(pass);
+		user.setPassword(pass);
 		
 	}
 	

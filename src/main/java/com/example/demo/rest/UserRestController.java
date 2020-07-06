@@ -28,9 +28,7 @@ public class UserRestController {
 	UserService userService;
 	@Autowired
 	AuthInfoService authInfoService;
-	
-	int userCount = 0;
-	
+
 	@GetMapping("get/{id}")
 	@ResponseBody
 	public User get(@PathVariable("id") int userId) {
@@ -41,8 +39,6 @@ public class UserRestController {
 	@ResponseBody
 	public AuthInfo add(@RequestBody User user) {
 		long lastSeen = System.currentTimeMillis();
-		user.setUserId(userCount);
-		userCount++;
 		userService.addUser(user);
 		userService.updateLastSeen(user.getUserId(), lastSeen);
 		return authInfoService.addAuth(user.getUserId(),UUID.randomUUID());
@@ -69,20 +65,18 @@ public class UserRestController {
 	@GetMapping("login")
 	@ResponseBody
 	public UUID login(@RequestParam("userId") int userId, @RequestParam("pass") String pass) {
-		if(userService.getUser(userId).getPass().equals(pass)) {
-			UUID authId  = UUID.randomUUID();
-			authInfoService.addAuth(userId, authId);
-			return authId;
+		if(userService.getUser(userId).getPassword().equals(pass)){
+			UUID timeStamp = UUID.randomUUID();
+			return timeStamp;
 		}
-		else {
+		else
 			return null;
-		}
 	}
 	
 	@GetMapping("check")
 	@ResponseBody
-	public boolean check(@RequestParam("userId") int userId,@RequestParam("authId") UUID authId) {
-		return authInfoService.checkAuth(userId,authId);
+	public boolean check(@RequestParam("userId") int userId) {
+		return userService.check(userId);
 	}
 	
 	@DeleteMapping("delete/{id}")

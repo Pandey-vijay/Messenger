@@ -6,7 +6,7 @@ import com.example.demo.dao.UserDAO;
 import com.example.demo.entity.User;
 
 @Service
-public class UserService{
+public class UserService {
 
 	private final UserDAO userDAO;
 	
@@ -16,11 +16,14 @@ public class UserService{
 
 	public void addUser(User user) {
 		userDAO.addUser(user);
-		
 	}
 
 	public User getUser(int userId) {
 		return userDAO.getUser(userId);
+	}
+
+	public boolean check(int userId) {
+		return !userDAO.check(userId);
 	}
 
 	public void removeUser(int userId) {

@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import { LoginFeelDirective } from './login/login-feel.directive'
 import {Route, RouterModule,ActivatedRoute} from "@angular/router";
 import { UserComponent } from './user/user.component'
@@ -12,12 +12,10 @@ import {} from '@angular/compiler'
 import {HttpClientModule} from '@angular/common/http'
 import { from } from 'rxjs';
 import { Values } from './values.service';
-import { CheckComponent } from './check/check.component';
 import  {LoginAuthGaurdService} from "./login-auth-gaurd.service"
 const route : Route[] = [
   { path : "login" ,  component : LoginComponent},
   { path : "signup" ,  component : SignupComponent  },
-  { path : "user/check",component : CheckComponent,canActivate : [LoginAuthGaurdService]},
   { path : "user/:userId" , component : UserComponent,canActivate : [LoginAuthGaurdService]}
   ]
 
@@ -29,17 +27,17 @@ const route : Route[] = [
     SignupComponent,
     LoginFeelDirective,
     UserComponent,
-    CheckComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(route)
   ],
   providers: [
-    Values,LoginAuthGaurdService
+    Values,LoginAuthGaurdService,NgForm
   ],
   bootstrap: [AppComponent]
 })
