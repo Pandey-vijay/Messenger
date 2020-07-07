@@ -25,8 +25,13 @@ export class LoginComponent  {
       response => {
           if(response === null)
             alert(`Login Failed`)
-        else
-            alert(`Your Auth Token is ${response}`)
+        else {
+            console.log(this.form.value["userId"]);
+            localStorage.setItem("userId",this.form.value["userId"]);
+            localStorage.setItem("authId",response.toString());
+            localStorage.setItem("timeStamp",new Date().getTime().toString());
+            alert("login Success");
+          }
       }
     )
   }

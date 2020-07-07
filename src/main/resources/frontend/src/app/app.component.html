@@ -4,6 +4,7 @@
       <a class="navbar-brand" [routerLink]="['/','login']" >Messenger</a>
       <input *ngIf="showLogin()" [routerLink]="['/','login']" type="button" class="ml-auto btn btn-primary" value="Login">
       <input *ngIf="showLogin()" [routerLink]="['/','signup']" type="button" class="ml-1 btn btn-primary" value="Sign Up">
+      <input *ngIf="!showLogin()" [routerLink]="['/','signup']" type="button" class="ml-1 btn btn-danger ml-auto" value="Logout" (click)="onClick()" >
     </nav>
     <router-outlet></router-outlet>
   </body>

@@ -14,4 +14,10 @@ export class AppComponent {
     else
       return false;
   }
+
+  onClick(){
+    localStorage.removeItem("userId");
+    localStorage.removeItem("authId");
+    localStorage.removeItem("timeStamp");
+  }
 }

@@ -1,0 +1,11 @@
+
+  <div class="row pb-2 mt-2 ml-2 mr-2">
+  <ul class="list-group col-3">
+    <li class="list-group-item" *ngFor="let user of users" (click)="onClick(user)" >{{user}}</li>
+  </ul>
+
+  <ng-component class="list-group col-9 " >
+    <li class="list-group-item" *ngFor="let user of users" (click)="onClick(user)" >{{user}}</li>
+  </ng-component>
+  </div>
+

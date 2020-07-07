@@ -12,10 +12,13 @@ import {} from '@angular/compiler'
 import {HttpClientModule} from '@angular/common/http'
 import { from } from 'rxjs';
 import { Values } from './values.service';
-import  {LoginAuthGaurdService} from "./login-auth-gaurd.service"
+import  {LoginAuthGaurdService} from "./login-auth-gaurd.service";
+import { ChatComponent } from './chat/chat.component';
+import { ChatScreenComponent } from './chat/chat-screen/chat-screen.component';
 const route : Route[] = [
   { path : "login" ,  component : LoginComponent},
   { path : "signup" ,  component : SignupComponent  },
+  { path : "chat", component : ChatComponent,children : [ {path : ":userId" , component : ChatScreenComponent}]},
   { path : "user/:userId" , component : UserComponent,canActivate : [LoginAuthGaurdService]}
   ]
 
@@ -27,6 +30,8 @@ const route : Route[] = [
     SignupComponent,
     LoginFeelDirective,
     UserComponent,
+    ChatComponent,
+    ChatScreenComponent,
   ],
   imports: [
     BrowserModule,

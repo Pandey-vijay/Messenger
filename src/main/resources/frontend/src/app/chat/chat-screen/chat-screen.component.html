@@ -1,0 +1,14 @@
+
+<div>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let chat of chats ">
+      <span>{{chat.message}}</span><br>
+      <span class="mr-10 float-right" style="font-size: x-small">{{chat.messageStatus}} ~ {{chat.messageTime}}</span>
+    </li>
+  </ul>
+</div>
+
+<div class="row mt-1 mb-auto">
+  <input class=" ml-3 form-control col-9" type="text" [(ngModel)]="chatInput">
+  <input class="btn btn-primary col-2 ml-auto mr-3" type="button" value="Send" (click)="onSend()">
+</div>
