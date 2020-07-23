@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.AuthInfo;
 import com.example.demo.entity.Message;
 import com.example.demo.entity.User;
 import org.hibernate.Session;
@@ -19,6 +20,7 @@ public class DataBaseService {
                     .configure("hibernate/hibernate.cfg.xml")
                     .addAnnotatedClass(User.class)
                     .addAnnotatedClass(Message.class)
+                    .addAnnotatedClass(AuthInfo.class)
                     .buildSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();

@@ -25,13 +25,16 @@ public class UserController implements UserDAO {
 		session.beginTransaction();
 		session.save(user);
 		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Override
 	public User getUser(int userId) {
 		Session session = dataBaseService.createNewSession();
 		session.beginTransaction();
-		return session.get(User.class,userId);
+		User user = session.get(User.class,userId);
+		session.close();
+		return user;
 	}
 
 	@Override
@@ -41,6 +44,7 @@ public class UserController implements UserDAO {
 		Query query = session.createQuery("select count(user_id) from user where user_id = :userId");
 		query.setParameter("userId",userId);
 		int i = Integer.parseInt(query.getSingleResult().toString());
+		session.close();
 		if(i == 1)
 			 return true;
 		else
@@ -54,6 +58,8 @@ public class UserController implements UserDAO {
 		Query query = session.createQuery("delete from user where user_id = :user_id");
 		query.setParameter("user_id",userId);
 		query.executeUpdate();
+		session.close();
+
 	}
 
 	@Override
@@ -64,6 +70,7 @@ public class UserController implements UserDAO {
 		query.setParameter("user_id",userId);
 		query.setParameter("user_name",userName);
 		query.executeUpdate();
+		session.close();
 
 	}
 
@@ -75,6 +82,7 @@ public class UserController implements UserDAO {
 		query.setParameter("user_id",userId);
 		query.setParameter("user_status",status);
 		query.executeUpdate();
+		session.close();
 
 	}
 
@@ -86,6 +94,7 @@ public class UserController implements UserDAO {
 		query.setParameter("user_id",userId);
 		query.setParameter("last_seen",lastSeen);
 		query.executeUpdate();
+		session.close();
 
 	}
 
@@ -97,6 +106,7 @@ public class UserController implements UserDAO {
 		query.setParameter("user_id",userId);
 		query.setParameter("password",pass);
 		query.executeUpdate();
+		session.close();
 
 	}
 

@@ -8,17 +8,15 @@ import javax.persistence.Table;
 @Entity(name = "message")
 @Table(name = "message")
 public class Message {
-
 	@Column(name = "message")
 	String message;
 	@Column(name = "send_time")
-	long sendtime;
+	long sendtime = System.currentTimeMillis();
 	@Column(name = "rec_time")
 	long recTime;
 	@Column(name = "seen_time")
 	long seenTime;
-	@Id
-	@Column(name = "message_id")
+	@Id@Column(name = "message_Id")
 	int messageId;
 	@Column(name = "sender_id")
 	int senderId;

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class MessageService{
 		return messageDao.getMessage(userId, MessageId);
 	}
 
-	public Map<Integer, Message> getAllMessage(int userId) {
+	public List<Message> getAllMessage(int userId) {
 		return messageDao.getAllMessage(userId);
 	}
 

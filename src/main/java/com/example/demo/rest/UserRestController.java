@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.example.demo.entity.Message;
 import com.example.demo.service.AuthInfoService;
+import com.example.demo.service.DataBaseService;
 import com.example.demo.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,11 +47,9 @@ public class UserRestController {
 	@PostMapping("add")
 	@ResponseBody
 	public AuthInfo add(@RequestBody User user) {
-		long lastSeen = System.currentTimeMillis();
 		userService.addUser(user);
-		userService.updateLastSeen(user.getUserId(), lastSeen);
 		messageService.setNew(user.getUserId(),false);
-		return authInfoService.addAuth(user.getUserId(),UUID.randomUUID());
+		return authInfoService.addAuth(user.getUserId());
 	}
 	
 	@PostMapping("update/username/{id}")
@@ -74,9 +73,14 @@ public class UserRestController {
 	@GetMapping("login")
 	@ResponseBody
 	public UUID login(@RequestParam("userId") int userId, @RequestParam("pass") String pass) {
-		if(userService.getUser(userId).getPassword().equals(pass)){
-			UUID timeStamp = UUID.randomUUID();
-			return timeStamp;
+		User user = userService.getUser(userId);
+		if(user.getPassword().equals(pass)) {
+			{
+				System.out.println("login ok");
+				AuthInfo authInfo = authInfoService.updateAuth(userId);
+				System.out.println(authInfo.toString());
+				return authInfoService.updateAuth(userId).getAuthId();
+			}
 		}
 		else
 			return null;

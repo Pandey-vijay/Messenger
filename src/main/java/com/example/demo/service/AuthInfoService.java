@@ -8,15 +8,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 @Component
-public class AuthInfoService{
+public class AuthInfoService {
     @Autowired
     AuthInfoController authInfoController;
 
-    public AuthInfo addAuth(int userId, UUID authId) {
-        return authInfoController.addAuth(userId,authId);
+    public AuthInfo addAuth(int userId) {
+        return authInfoController.addAuth(userId);
     }
 
     public boolean checkAuth(int userId, UUID authId) {
         return authInfoController.checkAuth(userId,authId);
+    }
+
+    public AuthInfo updateAuth(int userId) {
+        return authInfoController.updateAuth(userId);
     }
 }
