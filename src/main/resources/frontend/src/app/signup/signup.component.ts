@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, Pipe, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {AbstractControl, FormControl, FormGroup, NgForm, NgModel, ValidatorFn, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -15,8 +15,6 @@ import {strict} from "assert";
   styleUrls: ['./signup.component.css'],
   providers : [Values]
 })
-
-
 export class SignupComponent implements OnInit {
 
   signupForm : FormGroup;

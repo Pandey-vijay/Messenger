@@ -9,5 +9,6 @@ public interface MessageDAO {
 	public void addMessage(Message message);
 	public Message getMessage(int userId,int MessageId);
 	public Map<Integer, Message> getAllMessage(int userId);
-
+	public void setNew(int userId,boolean isNew);
+	public boolean getNew(int userId);
 }

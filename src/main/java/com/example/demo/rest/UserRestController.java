@@ -2,7 +2,9 @@ package com.example.demo.rest;
 
 import java.util.UUID;
 
+import com.example.demo.entity.Message;
 import com.example.demo.service.AuthInfoService;
+import com.example.demo.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,10 +26,16 @@ import com.example.demo.service.UserService;
 @RequestMapping("user")
 public class UserRestController {
 
-	@Autowired
 	UserService userService;
-	@Autowired
 	AuthInfoService authInfoService;
+	MessageService messageService;
+
+	UserRestController(UserService userService, AuthInfoService authInfoService, MessageService messageService){
+		this.userService = userService;
+		this.authInfoService = authInfoService;
+		this.messageService = messageService;
+	}
+
 
 	@GetMapping("get/{id}")
 	@ResponseBody
@@ -41,6 +49,7 @@ public class UserRestController {
 		long lastSeen = System.currentTimeMillis();
 		userService.addUser(user);
 		userService.updateLastSeen(user.getUserId(), lastSeen);
+		messageService.setNew(user.getUserId(),false);
 		return authInfoService.addAuth(user.getUserId(),UUID.randomUUID());
 	}
 	
@@ -76,6 +85,7 @@ public class UserRestController {
 	@GetMapping("check")
 	@ResponseBody
 	public boolean check(@RequestParam("userId") int userId) {
+		System.out.println(userId);
 		return userService.check(userId);
 	}
 	

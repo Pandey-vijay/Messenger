@@ -10,7 +10,6 @@ import com.example.demo.entity.AuthInfo;
 
 @Configuration
 public class AppConfig {
-
 	@Bean
 	UserController userController() {
 		return new UserController();

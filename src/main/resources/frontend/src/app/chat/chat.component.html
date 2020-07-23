@@ -1,11 +1,19 @@
+ <div class="row pb-2 mt-2 ml-0 mr-2">
 
-  <div class="row pb-2 mt-2 ml-2 mr-2">
-  <ul class="list-group col-3">
-    <li class="list-group-item" *ngFor="let user of users" (click)="onClick(user)" >{{user}}</li>
-  </ul>
+    <div class="col-3 mt-1">
+      <div class="input-group">
+        <input type="text" role="group" class="form-control">
+        <div class="input-group-append">
+          <input type="button" class="btn btn-primary" role="group" value="Search">
+        </div>
+      </div>
 
-  <ng-component class="list-group col-9 " >
-    <li class="list-group-item" *ngFor="let user of users" (click)="onClick(user)" >{{user}}</li>
-  </ng-component>
+    <ul class="list-group mt-1">
+        <li class="list-group-item"  *ngFor="let user of users" (click)="onClick(user.userId)" routerLinkActive="active" >{{user.userName}}</li>
+      </ul>
+    </div>
+
+    <ng-component class="col-9 " #chatScreen>
+    </ng-component>
   </div>
 

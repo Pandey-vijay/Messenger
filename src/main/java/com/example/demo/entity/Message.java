@@ -1,11 +1,41 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name = "message")
+@Table(name = "message")
 public class Message {
 
+	@Column(name = "message")
 	String message;
-	long sendtime,recTime,seenTime;
-	int messageId,senderId,recevierId;
-	
+	@Column(name = "send_time")
+	long sendtime;
+	@Column(name = "rec_time")
+	long recTime;
+	@Column(name = "seen_time")
+	long seenTime;
+	@Id
+	@Column(name = "message_id")
+	int messageId;
+	@Column(name = "sender_id")
+	int senderId;
+	@Column(name = "recevier_id")
+	int recevierId;
+
+	public Message() {
+	}
+
+	public Message(String message, long sendtime, int messageId, int senderId, int recevierId) {
+		this.message = message;
+		this.sendtime = sendtime;
+		this.messageId = messageId;
+		this.senderId = senderId;
+		this.recevierId = recevierId;
+	}
+
 	public String getMessage() {
 		return message;
 	}
@@ -48,7 +78,27 @@ public class Message {
 	public void setRecevierId(int recevierId) {
 		this.recevierId = recevierId;
 	}
-	
-	
 
+	public Message(String message, long sendtime, long recTime, long seenTime, int messageId, int senderId, int recevierId) {
+		this.message = message;
+		this.sendtime = sendtime;
+		this.recTime = recTime;
+		this.seenTime = seenTime;
+		this.messageId = messageId;
+		this.senderId = senderId;
+		this.recevierId = recevierId;
+	}
+
+	@Override
+	public String toString() {
+		return "Message{" +
+				"message='" + message + '\'' +
+				", sendtime=" + sendtime +
+				", recTime=" + recTime +
+				", seenTime=" + seenTime +
+				", messageId=" + messageId +
+				", senderId=" + senderId +
+				", recevierId=" + recevierId +
+				'}';
+	}
 }

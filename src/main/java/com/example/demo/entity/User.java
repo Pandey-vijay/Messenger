@@ -1,12 +1,44 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity(name = "user")
+@Table(name = "user")
 public class User {
-
+	@Id
+	@Column(name = "user_id")
 	private int userId;
-	private String userName,password,status="Hello there";
-	private long lastSeen;
-	
+	@Column(name = "user_name")
+	private String userName;
+	@Column(name = "password")
+	private String password;
+	@Column(name = "status")
+	private String status = "Hello There";
+	@Column(name = "last_seen")
+	private long lastSeen = System.currentTimeMillis();
+
+	public User(){
+		
+	}
+
+
+	public User(int userId, String userName, String password) {
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+	}
+
+	public User(int userId, String userName, String password, String status, long lastSeen) {
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+		this.status = status;
+		this.lastSeen = lastSeen;
+	}
+
 	public int getUserId() {
 		return userId;
 	}
@@ -41,7 +73,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User Id "+getUserId()+" " +
-				"\n User Name : "+ getPassword();
+				"\n User Name : "+ getUserName();
 	}
 	
 	

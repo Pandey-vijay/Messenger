@@ -1,14 +1,31 @@
-
-<div>
-  <ul class="list-group">
+<div class="container">
+<section >
+<div class="overflow"  >
+  <ul class="list-group" >
     <li class="list-group-item" *ngFor="let chat of chats ">
-      <span>{{chat.message}}</span><br>
-      <span class="mr-10 float-right" style="font-size: x-small">{{chat.messageStatus}} ~ {{chat.messageTime}}</span>
+      <div *ngIf="chat.recevied">
+        <span  class="float-right alert-primary p-2 mb-2">{{chat.message}}</span><br><br>
+        <span class="mr-10 float-right" style="font-size: x-small">{{chat.messageStatus}} ~ {{chat.messageTime}}</span>
+      </div>
+      <div *ngIf="!chat.recevied">
+        <span class=" alert-success p-2">{{chat.message}}</span><br>
+        <span class="mr-10 float-right" style="font-size: x-small">{{chat.messageStatus}} ~ {{chat.messageTime}}</span>
+      </div>
     </li>
   </ul>
 </div>
+</section>
 
-<div class="row mt-1 mb-auto">
-  <input class=" ml-3 form-control col-9" type="text" [(ngModel)]="chatInput">
-  <input class="btn btn-primary col-2 ml-auto mr-3" type="button" value="Send" (click)="onSend()">
+<div class="input-group mt-1 position-sticky" style="height: 10% ; float: bottom">
+  <input (keypress)="onEnter($event)" class="form-control" role="group" type="text" [(ngModel)]="chatInput">
+  <div class="input-group-append">
+    <input class="btn-primary btn" role="group" type="button" value="      Send      " (click)="onSend()">
+  </div>
 </div>
+</div>
+<!--
+<div class="row mt-1 mb-auto input-group">
+  <input (keypress)="onEnter($event)" class=" ml-3 col-9 btn-group" role="group" type="text" [(ngModel)]="chatInput">
+  <input class="btn btn-primary col-2 ml-auto mr-3 btn-group" role="group" type="button" value="Send" (click)="onSend()">
+</div>
+-->

@@ -9,7 +9,7 @@ import com.example.demo.dao.MessageDAO;
 import com.example.demo.entity.Message;
 
 @Service
-public class MessageService  {
+public class MessageService{
 	@Autowired
 	MessageDAO messageDao;
 
@@ -23,6 +23,14 @@ public class MessageService  {
 
 	public Map<Integer, Message> getAllMessage(int userId) {
 		return messageDao.getAllMessage(userId);
+	}
+
+	public void setNew(int userId, boolean isNew) {
+		messageDao.setNew(userId,isNew);
+	}
+
+	public boolean getNew(int userId) {
+		return messageDao.getNew(userId);
 	}
 
 }

@@ -3,33 +3,40 @@ package com.example.demo.rest;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Message;
 import com.example.demo.service.MessageService;
 
 @RestController
 @RequestMapping("message")
+@CrossOrigin("*")
 public class MessageRestController {
-	@Autowired
+
 	MessageService messageService;
-	
+
+	MessageRestController(MessageService messageService){
+		this.messageService = messageService;
+	}
+
 	@GetMapping("get/{id}")
 	@ResponseBody
 	public Map<Integer, Message> get(@PathVariable("id")int userId){
-		return messageService.getAllMessage(userId);
+		if(messageService.getNew(userId)) {
+			messageService.setNew(userId,false);
+			return messageService.getAllMessage(userId);
+		}
+		else
+			return null;
 	}
 	
 	@PostMapping("send")
-	public String send(@RequestBody Message message) {
+	@ResponseBody
+	public boolean send(@RequestBody Message message) {
+		messageService.setNew(message.getRecevierId(),true);
 		messageService.addMessage(message);
-		return "Message Send";
+		System.out.println(message);
+		return true;
 	}
 	
 

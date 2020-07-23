@@ -4,62 +4,101 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.demo.dao.UserDAO;
+import com.example.demo.entity.Message;
 import com.example.demo.entity.User;
+import com.example.demo.service.DataBaseService;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import javax.persistence.Query;
+
 
 public class UserController implements UserDAO {
-	
-	Map<Integer,User> users = new HashMap<Integer, User>() ;
-	
-	
+
+	@Autowired
+	DataBaseService dataBaseService;
+	//Map<Integer,User> users = new HashMap();
 	@Override
 	public void addUser(User user) {
-		users.put(user.getUserId(), user);
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		session.save(user);
+		session.getTransaction().commit();
 	}
 
 	@Override
 	public User getUser(int userId) {
-		return users.get(userId);
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		return session.get(User.class,userId);
 	}
 
 	@Override
 	public boolean check(int userId) {
-		return users.containsKey(userId);
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select count(user_id) from user where user_id = :userId");
+		query.setParameter("userId",userId);
+		int i = Integer.parseInt(query.getSingleResult().toString());
+		if(i == 1)
+			 return true;
+		else
+			return false;
 	}
 
 	@Override
 	public void removeUser(int userId) {
-		User user = users.get(userId);
-		users.remove(user.getUserId());
-		
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		Query query = session.createQuery("delete from user where user_id = :user_id");
+		query.setParameter("user_id",userId);
+		query.executeUpdate();
 	}
 
 	@Override
 	public void updateUserName(int userId, String userName) {
-		User user = users.get(userId);
-		user.setUserName(userName);
-		
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		Query query = session.createQuery("update user set user_name = :user_name where user_id = :user_id");
+		query.setParameter("user_id",userId);
+		query.setParameter("user_name",userName);
+		query.executeUpdate();
+
 	}
 
 	@Override
 	public void updateStatus(int userId, String status) {
-		User user = users.get(userId);
-		user.setStatus(status);
-		
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		Query query = session.createQuery("update user set status = :user_status where user_id = :user_id");
+		query.setParameter("user_id",userId);
+		query.setParameter("user_status",status);
+		query.executeUpdate();
+
 	}
 
 	@Override
 	public void updateLastSeen(int userId, long lastSeen) {
-		User user = users.get(userId);
-		user.setLastSeen(lastSeen);
-		
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		Query query = session.createQuery("update user set last_seen = :last_seen where user_id = :user_id");
+		query.setParameter("user_id",userId);
+		query.setParameter("last_seen",lastSeen);
+		query.executeUpdate();
+
 	}
 
 	@Override
 	public void updatePassword(int userId, String pass) {
-		User user = users.get(userId);
-		user.setPassword(pass);
-		
+		Session session = dataBaseService.createNewSession();
+		session.beginTransaction();
+		Query query = session.createQuery("update user set password = :password where user_id = :user_id");
+		query.setParameter("user_id",userId);
+		query.setParameter("password",pass);
+		query.executeUpdate();
+
 	}
-	
-	
+
+
 }
