@@ -14,8 +14,8 @@ public class MessageService{
 	@Autowired
 	MessageDAO messageDao;
 
-	public void addMessage(Message message) {
-		messageDao.addMessage(message);
+	public int addMessage(Message message) {
+		return messageDao.addMessage(message);
 	}
 
 	public Message getMessage(int userId, int MessageId) {

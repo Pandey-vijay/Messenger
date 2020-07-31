@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "message")
 @Table(name = "message")
@@ -16,7 +13,9 @@ public class Message {
 	long recTime;
 	@Column(name = "seen_time")
 	long seenTime;
-	@Id@Column(name = "message_Id")
+	@Id
+	@Column(name = "message_Id",nullable = true)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	int messageId;
 	@Column(name = "sender_id")
 	int senderId;

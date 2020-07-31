@@ -9,7 +9,7 @@
       </div>
 
     <ul class="list-group mt-1">
-        <li class="list-group-item"  *ngFor="let user of users" (click)="onClick(user.userId)" routerLinkActive="active" >{{user.userName}}</li>
+        <li class="list-group-item"  *ngFor="let user of users" (click)="onClick(user.userId)" [routerLink]="['/chat',user.userId]" routerLinkActive="active" >{{user.userName}}</li>
       </ul>
     </div>
 

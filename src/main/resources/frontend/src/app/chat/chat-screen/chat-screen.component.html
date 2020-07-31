@@ -1,15 +1,15 @@
 <div class="container">
 <section >
 <div class="overflow"  >
-  <ul class="list-group" >
+  <ul class="list-group message-list">
     <li class="list-group-item" *ngFor="let chat of chats ">
-      <div *ngIf="chat.recevied">
+      <div *ngIf="chat.senderId !== currentUser">
         <span  class="float-right alert-primary p-2 mb-2">{{chat.message}}</span><br><br>
-        <span class="mr-10 float-right" style="font-size: x-small">{{chat.messageStatus}} ~ {{chat.messageTime}}</span>
+        <span class="mr-10 float-right" style="font-size: x-small">~ {{timeResolver(chat.recTime)}}</span>
       </div>
-      <div *ngIf="!chat.recevied">
+      <div *ngIf="chat.senderId === currentUser">
         <span class=" alert-success p-2">{{chat.message}}</span><br>
-        <span class="mr-10 float-right" style="font-size: x-small">{{chat.messageStatus}} ~ {{chat.messageTime}}</span>
+        <span class="mr-10 float-right" style="font-size: x-small">{{statusResolve(chat)  }} ~ {{timeResolver(chat.sendtime)}}</span>
       </div>
     </li>
   </ul>

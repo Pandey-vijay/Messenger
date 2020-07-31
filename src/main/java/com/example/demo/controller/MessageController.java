@@ -18,12 +18,14 @@ public class MessageController implements MessageDAO {
 	DataBaseService dataBaseService;
 	Map<Integer,Boolean> hasNewMessage = new HashMap<Integer, Boolean>();
 	@Override
-	public void addMessage(Message message) {
+	public int addMessage(Message message) {
 		Session session= dataBaseService.createNewSession();
 		session.beginTransaction();
 		session.save(message);
+		System.out.println(message);
 		session.getTransaction().commit();
 		session.close();
+		return message.getMessageId();
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public class MessageController implements MessageDAO {
 		q.setParameter("recevierId",userId);
 		q.executeUpdate();
 		session.close();
+		System.out.println(messages);
 		return messages;
 	}
 

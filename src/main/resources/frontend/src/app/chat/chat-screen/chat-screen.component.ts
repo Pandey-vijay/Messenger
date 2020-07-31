@@ -4,117 +4,103 @@ import {ChatScreenTalkService} from "./chat-screen-talk.service";
 import {HttpClient} from "@angular/common/http";
 import {Values} from "../../values.service";
 import {Observable, Subscription} from "rxjs";
+import {LoadChatService} from "./load-chat.service";
+import {ServerCommunicationService} from "../server-communication.service";
+
+interface Message {
+
+  message : string;
+  sendtime? : number,
+  senderId? : number,
+  recevierId? : number,
+  messageId? : number,
+  recTime? : number,
+  seenTime? : number
+
+}
 
 @Component({
   selector: 'app-chat-screen',
   templateUrl: './chat-screen.component.html',
-  styleUrls: ['./chat-screen.component.css']
+  styleUrls: ['./chat-screen.component.css'],
+  providers : [LoadChatService,ServerCommunicationService]
 })
 
 export class ChatScreenComponent implements OnInit, OnDestroy{
-  userName ;
-  chatInput;
-  messageListener : Subscription;
-  mapData : Map<number,{}> = new Map<number, {}>();
+  @Input() data;
+  currentUser : number = +localStorage.getItem("userId") ;
+  chatInput = "";
+  screenUpdateListener : Subscription;
+  chatUpdate : Subscription;
+  userId : number = 0;
 
-  public chats :{
-    message : string,
-    messageTime : string,
-    messageStatus : string,
-    recevied : boolean
-  }[];
+  public chats : Message[] = this.loadChat.load(this.userId);
 
   constructor(private route : ActivatedRoute,
               private talk : ChatScreenTalkService,
               private http : HttpClient,
-              private  values : Values) {
-
-    route.params.subscribe(data => this.userName = data );
-    talk.deleteChat.subscribe(data => {
-      const chats = localStorage.getItem(this.userName["userId"]);
-      if(chats) {
-        this.chats = JSON.parse(chats);
-      }
-      else {
-        console.log("null ba")
-        this.chats = [];
-      }
-    });
-
-    this.mapData.set(1,{});
-    this.mapData.set(11,{});
-    this.mapData.set(12,{});
+              private values : Values,
+              private loadChat : LoadChatService,
+              private serverCommunication : ServerCommunicationService) {
+    this.route.params.subscribe( data => this.userId = data["userId"] );
   }
 
   ngOnDestroy(): void {
-        this.messageListener.unsubscribe();
-    }
+
+    console.log("destroy");
+    this.screenUpdateListener.unsubscribe()
+  }
 
 
 
   ngOnInit() {
 
-    //Sends Pings to server every second to check for new Message
+    this.chats = this.loadChat.load(this.userId);
 
-   this.messageListener=  this.talk.int.subscribe(data =>{
-      this.http.get(`${this.values.server}/message/get/${localStorage.getItem("userId")}`)
-        .subscribe(
-        (data:{} ) =>{
-          if(data !== null)
-          {
-            console.log(data)
-            for (let a in data){
-              this.chats.push(
-                  {
-                    message: data[a].message,
-                    messageStatus : " ",
-                    messageTime : `${new Date(data[a].sendtime).getHours()}:${new Date(data[a].sendtime).getHours()}:${new Date(data[a].sendtime).getHours()}`,
-                    recevied : true
-                  }
-                );
-            }
-          }
-        }
-      )
-    });
+    this.screenUpdateListener = this.talk.updateChatScreen.subscribe(
+      (userId : number) => {
+
+        this.chats = this.loadChat.load(userId);
+
+      }
+    );
+
+    this.chatUpdate = this.talk.int.subscribe(
+      data => {
+        this.chats = this.loadChat.load(this.userId);
+      }
+    )
+
   }
 
+  statusResolve(msg : Message) : string{
+    let op = "imp";
+    if(msg.messageId < 0)
+      op = "Sending";
+    if(msg.messageId > 0)
+      op =  "Sent";
+    if(msg.recTime > 0)
+      op =  "Recived";
+    if(msg.seenTime > 0)
+      op = "Seen"
+    return op;
+  }
 
-
+  timeResolver (time : number) : string {
+    return `${new Date(time).getHours()}:${new Date(time).getMinutes()}`;
+  }
 
   onSend(){
-    const chatInput = this.chatInput.toString().trim();
-    let message = {
-      message : chatInput,
-      senderId : localStorage.getItem("userId"),
-      recevierId : Number.parseInt(this.userName["userId"]),
-      sendTime : new Date().getTime(),
-      messageId : Number.parseInt(localStorage.getItem("msgId"))+1|0
-    };
-    if(chatInput !== ""){
-      this.http.post(`${this.values.server}/message/send`,message).subscribe(
-          (data : string) => console.log(data),
-        error => console.log(error)
-      )
-
-      console.log(message);
-      ;
+    this.chatInput = this.chatInput.toString().trim();
+    let temp = --this.values.tempId;
+    if(this.chatInput !== ""){
+      this.serverCommunication.send(this.chatInput,this.userId,temp);
+      this.loadChat.store({message : this.chatInput,recevierId : this.userId,messageId : temp,senderId : this.currentUser,sendtime : new Date().getTime()});
     }
-
-    if( chatInput !== "") {
-      this.chats.push({message : chatInput
-        , messageTime : `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
-        messageStatus : "Sent",
-        recevied : false
-      });
-      this.chatInput = "";
-    }
-    //console.log(this.chats);
-    this.talk.store.next({chatId : this.userName,chats : this.chats});
-
-    localStorage.setItem("msgId",
-      (Number.parseInt(localStorage.getItem("msgId"))+1|0).toString())
+    this.chats = this.loadChat.load(this.userId);
+    this.chatInput = "";
   }
+
 
   onEnter(evn){
 

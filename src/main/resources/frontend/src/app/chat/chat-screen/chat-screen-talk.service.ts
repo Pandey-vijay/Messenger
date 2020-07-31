@@ -15,7 +15,7 @@ export class ChatScreenTalkService {
     }[]
   }>();
 
-  deleteChat = new Subject();
-  int = interval(1000);
+  updateChatScreen = new Subject();
+  int = interval(5000);
 
 }

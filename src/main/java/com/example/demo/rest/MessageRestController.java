@@ -3,6 +3,7 @@ package com.example.demo.rest;
 import java.util.List;
 import java.util.Map;
 
+import com.example.demo.service.DataBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,19 +33,16 @@ public class MessageRestController {
 				return null;
 		}
 		catch (Exception e){
-			System.out.println(userId);
-			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 	
 	@PostMapping("send")
 	@ResponseBody
-	public boolean send(@RequestBody Message message) {
+	public int send(@RequestBody Message message) {
 		messageService.setNew(message.getRecevierId(),true);
-		messageService.addMessage(message);
-		System.out.println(message);
-		return true;
+		int messageId = messageService.addMessage(message);
+		return messageId;
 	}
 	
 

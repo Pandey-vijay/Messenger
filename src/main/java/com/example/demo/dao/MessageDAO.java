@@ -8,7 +8,7 @@ import com.example.demo.entity.Message;
 
 public interface MessageDAO {
 
-	public void addMessage(Message message);
+	public int addMessage(Message message);
 	public Message getMessage(int userId,int MessageId);
 	public List<Message> getAllMessage(int userId);
 	public void setNew(int userId,boolean isNew);

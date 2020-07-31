@@ -48,7 +48,6 @@ public class UserRestController {
 	@ResponseBody
 	public AuthInfo add(@RequestBody User user) {
 		userService.addUser(user);
-		messageService.setNew(user.getUserId(),false);
 		return authInfoService.addAuth(user.getUserId());
 	}
 	
